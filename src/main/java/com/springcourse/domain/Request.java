@@ -49,7 +49,7 @@ public class Request implements Serializable{
 	private RequestState stateOfRequest;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_of_request_id", nullable = false)
 	private User userOfRequest;
 	
 	@OneToMany(mappedBy = "request")

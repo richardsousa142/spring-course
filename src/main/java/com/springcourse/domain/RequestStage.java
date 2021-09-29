@@ -47,6 +47,6 @@ public class RequestStage implements Serializable{
 	private Request request;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_request_of_stage_id", nullable = false)
 	private User userRequestOfStage;
 }
