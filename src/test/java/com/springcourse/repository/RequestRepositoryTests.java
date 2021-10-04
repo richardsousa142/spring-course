@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 
 import java.util.Date;
 import java.util.List;
@@ -56,7 +55,7 @@ public class RequestRepositoryTests {
 		assertThat(requests.size()).isEqualTo(1);
 	}
 	@Test 
-	public void listByuserOfRequestIdTest() {
+	public void listByUserOfRequestIdTest() {
 		List<Request> requests = requestRepository.findAllUserOfRequestById(1L);
 		assertThat(requests.size()).isEqualTo(1);
 	}
