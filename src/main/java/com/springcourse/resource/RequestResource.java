@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springcourse.domain.Request;
-import com.springcourse.domain.User;
+import com.springcourse.domain.RequestStage;
 import com.springcourse.service.RequestService;
+import com.springcourse.service.RequestStageService;
 
 @RestController
 @RequestMapping(value="requests")
 public class RequestResource {
 	@Autowired
 	private RequestService requestService;
+	@Autowired
+	private RequestStageService requestStageService;
 	
 	@PostMapping
 	public ResponseEntity<Request> saveUser(@RequestBody Request request){
@@ -37,6 +40,11 @@ public class RequestResource {
 	public ResponseEntity<List<Request>> listAllByUserOfRequestId(){
 		List<Request> listOfAllRequests = requestService.listOfRequests();
 		return ResponseEntity.ok(listOfAllRequests);
+	}
+	@GetMapping("/{id}/request-stage")
+	public ResponseEntity<List<RequestStage>> listAllByRequestStageId(@PathVariable(name = "id") Long id){
+		List<RequestStage> listOfRequestStagesById = requestStageService.listAllByRequestStageId(id);
+		return ResponseEntity.ok(listOfRequestStagesById);
 	}
 	@PutMapping("/{id}")
 	public ResponseEntity<Request> updateUser(@PathVariable(name = "id") Long id, @RequestBody Request request){
