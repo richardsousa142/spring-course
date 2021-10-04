@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springcourse.domain.Request;
 import com.springcourse.domain.User;
 import com.springcourse.dto.UserLogindto;
+import com.springcourse.service.RequestService;
 import com.springcourse.service.UserService;
 
 @RestController
@@ -23,6 +24,8 @@ import com.springcourse.service.UserService;
 public class UserResource {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RequestService requestService;
 	
 	@PostMapping
 	public ResponseEntity<User> saveUser(@RequestBody User user){
@@ -39,6 +42,11 @@ public class UserResource {
 		List<User> listOfAllUsers = userService.listAllUsers();
 		return ResponseEntity.ok(listOfAllUsers);
 	} 
+	@GetMapping("/{id}/requests")
+	public ResponseEntity<List<Request>> getAllUserRequestsById(@PathVariable(name = "id") Long id){
+		List<Request> listOfRequestByUser = requestService.listAllByUserOfRequestId(id);
+		return ResponseEntity.ok(listOfRequestByUser);
+	}
 	@PutMapping("/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable(name = "id") Long id, @RequestBody User user){
 		user.setId(id);
@@ -50,4 +58,5 @@ public class UserResource {
 		User loggedUser = userService.loginUser(userLogindto.getEmail(), userLogindto.getPassword());
 		return ResponseEntity.ok(loggedUser);
 	} 
+	
 }
