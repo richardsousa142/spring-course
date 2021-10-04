@@ -34,7 +34,7 @@ public class RequestStageRepositoryTests {
 		assertThat(createdStage.getId()).isEqualTo(1L);
 	}
 	@Test 
-	public void getByIdTest() {
+	public void getRequestStageByIdTest() {
 		Optional<RequestStage> result = requestStageRepository.findById(1L);
 		RequestStage stage = result.get();
 		assertThat(stage.getDescriptionOfStage()).isEqualTo("Foi comprado um novo laptop de marda HD com 16GB de ram");
