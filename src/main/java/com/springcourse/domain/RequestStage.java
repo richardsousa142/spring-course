@@ -21,6 +21,7 @@ import com.springcourse.domain.enums.RequestState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -35,7 +36,7 @@ public class RequestStage implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "realization_date", nullable = false)
+	@Column(name = "realization_date", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date realizationDate;
 	
@@ -54,3 +55,4 @@ public class RequestStage implements Serializable{
 	@JoinColumn(name = "user_request_of_stage_id", nullable = false)
 	private User userRequestOfStage;
 }
+ 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +30,7 @@ public class RequestRepositoryTests {
 	public void saveTest() {
 		User userOfRequest = new User();
 		userOfRequest.setId(1L);
-		Request request = new Request(null, "Novo laptop hp", "Pretendo obter um laptop HP", new Date(04, 10, 2021), RequestState.OPEN, 
+		Request request = new Request(null, "Novo laptop hp", "Pretendo obter um laptop HP", new Date(), RequestState.OPEN, 
 				userOfRequest, null);
 		Request createdRequest = requestRepository.save(request);
 		assertThat(createdRequest.getId()).isEqualTo(1L); 
