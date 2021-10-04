@@ -20,8 +20,11 @@ import javax.persistence.TemporalType;
 
 import com.springcourse.domain.enums.RequestState;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity(name = "request")
 public class Request implements Serializable{

@@ -15,11 +15,11 @@ import javax.persistence.OneToMany;
 
 import com.springcourse.domain.enums.Role;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-//@NoArgsConstructor
-//@AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity(name = "user")
 public class User implements Serializable{

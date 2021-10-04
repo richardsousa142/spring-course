@@ -3,6 +3,7 @@ package com.springcourse.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,8 +18,11 @@ import javax.persistence.TemporalType;
 
 import com.springcourse.domain.enums.RequestState;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity(name = "request_stage")
 public class RequestStage implements Serializable{
