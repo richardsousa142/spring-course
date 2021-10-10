@@ -1,6 +1,5 @@
 package com.springcourse.resource;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,7 +39,9 @@ public class RequestResource {
 		return ResponseEntity.ok(request);
 	}
 	@GetMapping
-	public ResponseEntity<PageModel<Request>> getAllUsers(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size){
+	public ResponseEntity<PageModel<Request>> getAllUsers(
+			@RequestParam(value = "page", defaultValue = "0") int page, 
+			@RequestParam(value = "size", defaultValue = "10") int size){
 		PageRequestModel pr = new PageRequestModel(page, size);
 		PageModel<Request> pm = requestService.listAllOnLazyMode(pr);
 		
@@ -48,7 +49,9 @@ public class RequestResource {
 	}
 	@GetMapping("/{id}/request-stage")
 	public ResponseEntity<PageModel<RequestStage>> listAllByRequestStageId(
-			@PathVariable(name = "id") Long id,  @RequestParam(value = "page") int page, @RequestParam(value = "size") int size){
+			@PathVariable(name = "id") Long id,  
+			@RequestParam(value = "page", defaultValue = "0") int page, 
+			@RequestParam(value = "size", defaultValue = "10") int size){
 		
 		PageRequestModel pr = new PageRequestModel(page, size);
 		PageModel<RequestStage> pm = requestStageService.listAllByRequestStageIdOnLazyMode(id, pr);
