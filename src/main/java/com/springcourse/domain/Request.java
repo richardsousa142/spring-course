@@ -18,10 +18,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.springcourse.domain.enums.RequestState;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
@@ -55,7 +57,9 @@ public class Request implements Serializable{
 	@JoinColumn(name = "user_of_request_id", nullable = false)
 	private User userOfRequest;
 	
+	@Getter(onMethod = @__({@JsonIgnore}))
 	@OneToMany(mappedBy = "request")
 	private List<RequestStage> stagesOfRequests = new ArrayList<RequestStage>();
 	
 }
+	
