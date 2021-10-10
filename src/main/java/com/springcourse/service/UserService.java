@@ -4,10 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.springcourse.domain.User;
 import com.springcourse.exception.NotFoundException;
+import com.springcourse.model.PageModel;
+import com.springcourse.model.PageRequestModel;
 import com.springcourse.repository.UserRepository;
 import com.springcourse.service.util.HashUtil;
 
@@ -36,6 +41,12 @@ public class UserService {
 	public List<User> listAllUsers(){
 		List<User> listWithAllUsers = userRepository.findAll();
 		return listWithAllUsers;
+	}
+	public PageModel<User> listAllOnLazyMode(PageRequestModel pageRequest){
+		Pageable pageAble = PageRequest.of(pageRequest.getPage(), pageRequest.getSize());
+		Page<User> page = userRepository.findAll(pageAble);
+		PageModel<User> pm = new PageModel<>((int)page.getTotalElements(), page.getSize(), page.getTotalPages(), page.getContent());
+		return pm; 
 	}
 	public User loginUser(String email, String password) {
 		password = HashUtil.getSecureHash(password);

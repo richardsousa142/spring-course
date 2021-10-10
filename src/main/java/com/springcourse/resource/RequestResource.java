@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springcourse.domain.Request;
 import com.springcourse.domain.RequestStage;
+import com.springcourse.model.PageModel;
+import com.springcourse.model.PageRequestModel;
 import com.springcourse.service.RequestService;
 import com.springcourse.service.RequestStageService;
 
@@ -37,14 +40,19 @@ public class RequestResource {
 		return ResponseEntity.ok(request);
 	}
 	@GetMapping
-	public ResponseEntity<List<Request>> listAllByUserOfRequestId(){
-		List<Request> listOfAllRequests = requestService.listOfRequests();
-		return ResponseEntity.ok(listOfAllRequests);
+	public ResponseEntity<PageModel<Request>> getAllUsers(@RequestParam(value = "page") int page, @RequestParam(value = "size") int size){
+		PageRequestModel pr = new PageRequestModel(page, size);
+		PageModel<Request> pm = requestService.listAllOnLazyMode(pr);
+		
+		return ResponseEntity.ok(pm);
 	}
 	@GetMapping("/{id}/request-stage")
-	public ResponseEntity<List<RequestStage>> listAllByRequestStageId(@PathVariable(name = "id") Long id){
-		List<RequestStage> listOfRequestStagesById = requestStageService.listAllByRequestStageId(id);
-		return ResponseEntity.ok(listOfRequestStagesById);
+	public ResponseEntity<PageModel<RequestStage>> listAllByRequestStageId(
+			@PathVariable(name = "id") Long id,  @RequestParam(value = "page") int page, @RequestParam(value = "size") int size){
+		
+		PageRequestModel pr = new PageRequestModel(page, size);
+		PageModel<RequestStage> pm = requestStageService.listAllByRequestStageIdOnLazyMode(id, pr);
+		return ResponseEntity.ok(pm);
 	}
 	@PutMapping("/{id}")
 	public ResponseEntity<Request> updateUser(@PathVariable(name = "id") Long id, @RequestBody Request request){
