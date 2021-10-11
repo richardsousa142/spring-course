@@ -52,4 +52,10 @@ public class UserRepositoryTests {
 		User loggedUser = result.get();
 		assertThat(loggedUser.getId()).isEqualTo(32L);
 	}
+	@Test
+	public void updateRoleOfUserTest() {
+		int affectRows = userRepository.updateRoleOfUser(42L, Role.ADMINISTRATOR.toString());
+		assertThat(affectRows).isEqualTo(1);
+	}
 }
+  
