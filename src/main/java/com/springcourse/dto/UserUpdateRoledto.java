@@ -1,5 +1,7 @@
 package com.springcourse.dto;
 
+import javax.validation.constraints.NotNull;
+
 import com.springcourse.domain.enums.Role;
 
 import lombok.AllArgsConstructor;
@@ -11,6 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter @Setter
 public class UserUpdateRoledto {
+	
+	@NotNull(message = "Role required")
 	private Role roleOfUser;
 	
 	@Override
