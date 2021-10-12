@@ -36,6 +36,7 @@ public class User implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	
 	@Column(length = 75, nullable = false)
 	private String name;
 	
@@ -47,9 +48,10 @@ public class User implements Serializable{
 	@Column(length = 100, nullable = false)
 	private String password;
 	
-	@Column(length = 20, nullable = false, name = "role_of_user")
+	@Column(length = 20, nullable = false, name = "role_of_user", updatable = false)
 	@Enumerated(EnumType.STRING)
 	private Role roleOfUser; 
+	
 	
 	@Getter(onMethod = @__({@JsonIgnore}))
 	@OneToMany(mappedBy = "userOfRequest")
