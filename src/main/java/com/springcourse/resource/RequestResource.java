@@ -1,6 +1,8 @@
 package com.springcourse.resource;
 
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springcourse.domain.Request;
 import com.springcourse.domain.RequestStage;
+import com.springcourse.dto.RequestSavedto;
+import com.springcourse.dto.RequestUpdatedto;
 import com.springcourse.model.PageModel;
 import com.springcourse.model.PageRequestModel;
 import com.springcourse.service.RequestService;
@@ -29,7 +33,8 @@ public class RequestResource {
 	private RequestStageService requestStageService;
 	
 	@PostMapping
-	public ResponseEntity<Request> saveUser(@RequestBody Request request){
+	public ResponseEntity<Request> saveUser(@RequestBody @Valid RequestSavedto requestdto){
+		Request request = requestdto.transformToRequest();
 		Request createdRequest = requestService.saveRequest(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdRequest);
 	}
@@ -58,7 +63,8 @@ public class RequestResource {
 		return ResponseEntity.ok(pm);
 	}
 	@PutMapping("/{id}")
-	public ResponseEntity<Request> updateUser(@PathVariable(name = "id") Long id, @RequestBody Request request){
+	public ResponseEntity<Request> updateUser(@PathVariable(name = "id") Long id, @RequestBody @Valid RequestUpdatedto requestdto){
+		Request request = requestdto.transformToRequest();
 		request.setId(id);
 		Request updatedRequest = requestService.updateRequest(request);
 		return ResponseEntity.ok(updatedRequest);
