@@ -3,9 +3,15 @@ package com.springcourse.resource;
 
 import javax.validation.Valid;
 
+import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +40,8 @@ public class UserResource {
 	private UserService userService;
 	@Autowired
 	private RequestService requestService;
+	@Autowired
+	private AuthenticationManager authManager;
 	
 	@PostMapping
 	public ResponseEntity<User> saveUser(@RequestBody @Valid UserSavedto userdto){
@@ -71,11 +79,15 @@ public class UserResource {
 		User updatedUser = userService.updateUser(user);
 		return ResponseEntity.ok(updatedUser);
 	}
+	
 	@PostMapping("/login")
 	public ResponseEntity<User> loginUser(@RequestBody @Valid UserLogindto userLogindto){
-		User loggedUser = userService.loginUser(userLogindto.getEmail(), userLogindto.getPassword());
-		return ResponseEntity.ok(loggedUser);
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userLogindto.getEmail(), userLogindto.getPassword());
+		Authentication auth =  authManager.authenticate(token);
+		SecurityContextHolder.getContext().setAuthentication(auth);
+		return ResponseEntity.ok(null);
 	} 
+	
 	@PatchMapping("/role/{id}")
 	public ResponseEntity<?> updateRoleOfUser(@PathVariable(name = "id") Long id, @RequestBody @Valid UserUpdateRoledto userUpdateRole){
 		User user = new User();
