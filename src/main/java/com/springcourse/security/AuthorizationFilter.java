@@ -72,6 +72,7 @@ public class AuthorizationFilter extends OncePerRequestFilter{
 			
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			return;	
 		}
 		
 		filterChain.doFilter(request, response);
