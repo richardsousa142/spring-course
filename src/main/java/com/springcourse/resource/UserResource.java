@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springcourse.domain.Request;
 import com.springcourse.domain.User;
+import com.springcourse.dto.UserLoginResponsedto;
 import com.springcourse.dto.UserLogindto;
 import com.springcourse.dto.UserSavedto;
 import com.springcourse.dto.UserUpdateRoledto;
@@ -81,7 +82,7 @@ public class UserResource {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> loginUser(@RequestBody @Valid UserLogindto userLogindto){
+	public ResponseEntity<UserLoginResponsedto> loginUser(@RequestBody @Valid UserLogindto userLogindto){
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userLogindto.getEmail(), userLogindto.getPassword());
 		Authentication auth =  authManager.authenticate(token);
 		SecurityContextHolder.getContext().setAuthentication(auth);
@@ -93,12 +94,9 @@ public class UserResource {
 		List<String> roles = userSpring.getAuthorities()
 								.stream()
 								.map(authority -> authority.getAuthority())
-								.collect(Collectors.toList());
+								.collect(Collectors.toList());		
 		
-		String jwt = jwtManager.creteToken(email, roles);
-		
-		
-		return ResponseEntity.ok(jwt);
+		return ResponseEntity.ok(jwtManager.creteToken(email, roles));
 	} 
 	
 	@PatchMapping("/role/{id}")
