@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,16 +22,16 @@ import com.springcourse.dto.RequestSavedto;
 import com.springcourse.dto.RequestUpdatedto;
 import com.springcourse.model.PageModel;
 import com.springcourse.model.PageRequestModel;
+import com.springcourse.security.AccessManager;
 import com.springcourse.service.RequestService;
 import com.springcourse.service.RequestStageService;
 
 @RestController
 @RequestMapping(value="requests")
 public class RequestResource {
-	@Autowired
-	private RequestService requestService;
-	@Autowired
-	private RequestStageService requestStageService;
+	@Autowired private RequestService requestService;
+	@Autowired private RequestStageService requestStageService;
+	@Autowired private AccessManager accessManager;
 	
 	@PostMapping
 	public ResponseEntity<Request> saveUser(@RequestBody @Valid RequestSavedto requestdto){
@@ -62,6 +63,9 @@ public class RequestResource {
 		PageModel<RequestStage> pm = requestStageService.listAllByRequestStageIdOnLazyMode(id, pr);
 		return ResponseEntity.ok(pm);
 	}
+	
+	
+	@PreAuthorize("@accessManager.isRequestOwner(#id)")
 	@PutMapping("/{id}")
 	public ResponseEntity<Request> updateUser(@PathVariable(name = "id") Long id, @RequestBody @Valid RequestUpdatedto requestdto){
 		Request request = requestdto.transformToRequest();
