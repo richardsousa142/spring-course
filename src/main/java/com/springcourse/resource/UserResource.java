@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,6 +34,7 @@ import com.springcourse.dto.UserUpdateRoledto;
 import com.springcourse.dto.UserUpdatedto;
 import com.springcourse.model.PageModel;
 import com.springcourse.model.PageRequestModel;
+import com.springcourse.security.AccessManager;
 import com.springcourse.security.JwtManager;
 import com.springcourse.service.RequestService;
 import com.springcourse.service.UserService;
@@ -44,7 +46,7 @@ public class UserResource {
 	@Autowired private RequestService requestService;
 	@Autowired private AuthenticationManager authManager;
 	@Autowired private JwtManager jwtManager;
-	
+	@Autowired private AccessManager accessManager;
 	
 	@Secured({"ROLE_ADMINISTRATOR"})
 	@PostMapping
@@ -76,6 +78,8 @@ public class UserResource {
 		PageModel<Request> pm = requestService.listAllByUserOfRequestIdOnLazyMode(id, pr); 
 		return ResponseEntity.ok(pm);
 	}
+	
+	@PreAuthorize("@accessManager.isOwner(#id)")
 	@PutMapping("/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable(name = "id") Long id, @RequestBody @Valid UserUpdatedto userdto){
 		User user = userdto.transformaToUser();
