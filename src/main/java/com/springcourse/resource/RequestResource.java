@@ -22,7 +22,6 @@ import com.springcourse.dto.RequestSavedto;
 import com.springcourse.dto.RequestUpdatedto;
 import com.springcourse.model.PageModel;
 import com.springcourse.model.PageRequestModel;
-import com.springcourse.security.AccessManager;
 import com.springcourse.service.RequestService;
 import com.springcourse.service.RequestStageService;
 
@@ -31,7 +30,6 @@ import com.springcourse.service.RequestStageService;
 public class RequestResource {
 	@Autowired private RequestService requestService;
 	@Autowired private RequestStageService requestStageService;
-	@Autowired private AccessManager accessManager;
 	
 	@PostMapping
 	public ResponseEntity<Request> saveUser(@RequestBody @Valid RequestSavedto requestdto){
