@@ -48,7 +48,7 @@ public class UserResource {
 	@Autowired private JwtManager jwtManager;
 	@Autowired private AccessManager accessManager;
 	
-	@Secured({"ROLE_ADMINISTRATOR"})
+	@Secured(value  = { "ROLE_ADMINISTRATOR" })
 	@PostMapping
 	public ResponseEntity<User> saveUser(@RequestBody @Valid UserSavedto userdto){
 		User userToSave = userdto.transformaToUser();
@@ -106,7 +106,7 @@ public class UserResource {
 		return ResponseEntity.ok(jwtManager.creteToken(email, roles));
 	} 
 	
-	@Secured({"ROLE_ADMINISTRATOR"})
+	@Secured({ "ROLE_ADMINISTRATOR" })
 	@PatchMapping("/role/{id}")
 	public ResponseEntity<?> updateRoleOfUser(@PathVariable(name = "id") Long id, @RequestBody @Valid UserUpdateRoledto userUpdateRole){
 		User user = new User();

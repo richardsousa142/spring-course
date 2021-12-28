@@ -20,10 +20,8 @@ import com.springcourse.service.UserService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private CustomPasswordEncoder customPasswordEncoder;
+	@Autowired private UserService userService;
+	@Autowired private CustomPasswordEncoder customPasswordEncoder;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
